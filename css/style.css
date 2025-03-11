@@ -424,7 +424,7 @@ section.students {
   flex-direction: column;
   align-items: center;
   /* gap: 5rem; */
-  padding: 1rem 2rem;
+  padding: 0rem 3rem;
   width: auto;
   height: auto;
 }
