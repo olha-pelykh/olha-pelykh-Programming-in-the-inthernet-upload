@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ff5733" />
+    <meta name="Olha Pelykh" content="My site for labotary work" />
+    <link rel="manifest" href="/manifest.json" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kumbh+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <section id="body">
+      <header id="header-main">
+        <nav id="header-nav">
+          <a href="./index.html" class="header-logo">CMS</a>
+          <div id="header-nav-items">
+            <div class="notification-container">
+              <i class="fa-regular fa-bell" id="notifications-button">
+                <span id="notification-dot"></span>
+              </i>
+              <div
+                class="notifications-messages hidden"
+                id="modal-notifications"
+              >
+                <div class="notification-message">
+                  <i class="fa-solid fa-circle-user user-icon"></i>
+                  <div class="message-content">
+                    <p class="user-name">Iolanta Kolchyntseva</p>
+                    <p class="user-message">
+                      Hello! Have you already done labotary work?
+                    </p>
+                  </div>
+                </div>
+
+                <div class="notification-message">
+                  <i class="fa-solid fa-circle-user user-icon"></i>
+                  <div class="message-content">
+                    <p class="user-name">Artur Chernets</p>
+                    <p class="user-message">
+                      Have you seen Iolanta? I can't find her...
+                    </p>
+                  </div>
+                </div>
+
+                <div class="notification-message">
+                  <i class="fa-solid fa-circle-user user-icon"></i>
+                  <div class="message-content">
+                    <p class="user-name">Nastya Petrochenko</p>
+                    <p class="user-message">OMG!!! I am really hate TRUMP!</p>
+                  </div>
+                </div>
+
+                <div class="notification-message">
+                  <i class="fa-solid fa-circle-user user-icon"></i>
+                  <div class="message-content">
+                    <p class="user-name">Maryana Huchko</p>
+                    <p class="user-message">I lost my notes...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="user-info" id="user-info">
+              <a href="#">
+                <i class="fa-solid fa-circle-user" id="user-logo"></i>
+                <span id="user-name">James Bond</span>
+              </a>
+              <div class="profile-dropdown hidden" id="modal-profile">
+                <p>Profile settings</p>
+                <p>Logout</p>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div id="main">
+        <aside>
+          <div id="div-aside">
+            <ul id="menu-list">
+              <li data-page="dashboard">
+                <a href="dashboard.html">Dashboard</a>
+              </li>
+              <li data-page="students">
+                <a href="index.html"><b>Students</b></a>
+              </li>
+              <li data-page="tasks"><a href="tasks.html">Tasks</a></li>
+            </ul>
+          </div>
+        </aside>
+        <section class="content">
+          <div class="students__list" id="div-main">
+            <h1 class="headings">Students</h1>
+            <div id="head-table-buttons">
+              <button
+                class="add__student__btn"
+                id="delete-selected-btn"
+                title="delete selected items"
+              >
+                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+              </button>
+              <button
+                class="add__student__btn"
+                id="add-student-btn"
+                title="add new item"
+              >
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+            <div class="students__table-wrapper">
+              <table class="students__table" id="students-table">
+                <thead>
+                  <tr>
+                    <th>
+                      <input
+                        type="checkbox"
+                        id="select-all"
+                        title="select all items of table"
+                      /><label for="select-all" class="hidden__labels"
+                        >select all elements of table</label
+                      >
+                    </th>
+                    <th>Group</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Birthday</th>
+                    <th>Status</th>
+                    <th>Options</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="modal-wrapper hidden" id="add-student">
+        <div class="modal">
+          <div class="modal-header">
+            <h2>Add student</h2>
+            <button
+              type="button"
+              id="close-modal-btn"
+              class="close-btn"
+              title="close dialog window"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <form class="add__student__form" id="add-student-form">
+            <div class="student__field">
+              <label for="group">Group</label>
+              <select name="group" id="group" class="modal-wrapper-right">
+                <option value="PZ-21">PZ-21</option>
+                <option value="PZ-22">PZ-22</option>
+                <option value="PZ-23">PZ-23</option>
+                <option value="PZ-24">PZ-24</option>
+                <option value="PZ-25">PZ-25</option>
+                <option value="PZ-26">PZ-26</option>
+              </select>
+            </div>
+            <div class="student__field">
+              <label for="name">First name</label>
+              <input
+                type="text"
+                name="name"
+                class="modal-wrapper-right"
+                id="name"
+              />
+            </div>
+            <div class="student__field">
+              <label for="surname">Last name</label>
+              <input
+                type="text"
+                name="surname"
+                class="modal-wrapper-right"
+                id="surname"
+              />
+            </div>
+            <div class="student__field">
+              <label for="gender">Gender</label>
+              <select name="gender" class="modal-wrapper-right" id="gender">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+            </div>
+            <div class="student__field">
+              <label for="birthday">Birthday</label>
+              <input
+                type="date"
+                name="birthday"
+                class="modal-wrapper-right"
+                id="birthday"
+              /><br />
+            </div>
+            <div class="button-group">
+              <button type="submit" class="modal-btn">Ok</button>
+              <button
+                type="button"
+                class="modal-btn"
+                id="add-student-btn-close"
+              >
+                Close
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div id="delete-confirm-modal" class="modal-wrapper hidden">
+        <div class="modal modal-warn">
+          <h2>Are you sure you want to delete the selected items?</h2>
+          <div class="button-group">
+            <button class="modal-btn" id="cancel-delete-btn">Cancel</button>
+            <button class="modal-btn" id="confirm-delete-btn">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-wrapper hidden" id="delete-warn-student">
+        <div class="modal modal-warn">
+          <h2>Delete student?</h2>
+          <div class="button-group">
+            <button class="modal-btn" id="cancel-modal-btn">Cancel</button>
+            <button class="modal-btn" id="delete-modal-btn">Delete</button>
+          </div>
+        </div>
+      </div>
+      <script src="./js/script.js"></script>
+    </section>
+  </body>
+</html>
