@@ -219,6 +219,11 @@ table {
   background: #f3f7f2;
 }
 
+/* th.hidden-id,
+td.hidden-id {
+  display: none;
+} */
+
 /* #table {
   width: 100%;
   border-collapse: collapse;
@@ -713,6 +718,7 @@ section.students {
   max-width: 400px;
   transform: translateX(0);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-direction: column;
 }
 
 .notification.error {
@@ -746,6 +752,41 @@ section.students {
   border-color: #e9807c;
   box-shadow: 0px 0px 5px #e9807c;
   animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+#add-student .modal-header h2[data-mode="edit"] {
+  color: #2196f3;
+}
+
+.error-field {
+  border: 2px solid #ff4444 !important;
+  animation: shake 0.5s;
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 0.8em;
+  margin-bottom: 0.3em;
+  display: block;
+  text-align: right;
+}
+
+.form-field {
+  margin-bottom: 1em;
+  position: relative;
 }
 
 @keyframes shake {

@@ -20,6 +20,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./css/style.css" />
+    <link rel="manifest" href="./manifest.json" />
     <title>Document</title>
   </head>
   <body>
@@ -132,6 +133,7 @@
                         >select all elements of table</label
                       >
                     </th>
+                    <th class="hidden-id">Id</th>
                     <th>Group</th>
                     <th>Name</th>
                     <th>Gender</th>
@@ -160,9 +162,11 @@
             </button>
           </div>
           <form class="add__student__form" id="add-student-form">
+            <input type="hidden" name="id" id="student-id" />
             <div class="student__field">
               <label for="group">Group</label>
               <select name="group" id="group" class="modal-wrapper-right">
+                <option value selected disabled>Select group</option>
                 <option value="PZ-21">PZ-21</option>
                 <option value="PZ-22">PZ-22</option>
                 <option value="PZ-23">PZ-23</option>
@@ -192,6 +196,7 @@
             <div class="student__field">
               <label for="gender">Gender</label>
               <select name="gender" class="modal-wrapper-right" id="gender">
+                <option value selected disabled>Select gender</option>
                 <option value="M">Male</option>
                 <option value="F">Female</option>
               </select>
@@ -231,7 +236,7 @@
 
       <div class="modal-wrapper hidden" id="delete-warn-student">
         <div class="modal modal-warn">
-          <h2>Delete student?</h2>
+          <h2 id="delete-confirmation-text"></h2>
           <div class="button-group">
             <button class="modal-btn" id="cancel-modal-btn">Cancel</button>
             <button class="modal-btn" id="delete-modal-btn">Delete</button>
@@ -240,5 +245,22 @@
       </div>
       <script src="./js/script.js"></script>
     </section>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker
+            .register("./service-worker.js")
+            .then(function (registration) {
+              console.log(
+                "ServiceWorker registration successful with scope:",
+                registration.scope
+              );
+            })
+            .catch(function (error) {
+              console.log("ServiceWorker registration failed:", error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
