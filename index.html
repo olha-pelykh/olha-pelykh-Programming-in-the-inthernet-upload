@@ -3,9 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#ff5733" />
     <meta name="Olha Pelykh" content="My site for labotary work" />
-    <link rel="manifest" href="/manifest.json" />
+    <!-- icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -13,15 +12,36 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Kumbh+Sans&display=swap"
       rel="stylesheet"
     />
+    <!-- css -->
     <link rel="stylesheet" href="./css/style.css" />
-    <link rel="manifest" href="./manifest.json" />
-    <title>Document</title>
+    <!-- manifest  -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <link rel="icon" href="icons/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="icons/android-chrome-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="icons/android-chrome-512x512.png"
+    />
+    <link rel="manifest" href="manifest.json" />
+    <!-- <link rel="manifest" href="/icons/site.webmanifest" /> -->
+    <title>Палітєшик</title>
   </head>
   <body>
     <section id="body">
@@ -249,7 +269,7 @@
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {
           navigator.serviceWorker
-            .register("./service-worker.js")
+            .register("/service-worker.js")
             .then(function (registration) {
               console.log(
                 "ServiceWorker registration successful with scope:",

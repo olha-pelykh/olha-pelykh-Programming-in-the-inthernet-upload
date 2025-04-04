@@ -533,38 +533,6 @@ function updateTable() {
   });
 }
 
-// Handler for the cancel delete button (remains outside the function as it does not require tr)
-document.getElementById("cancel-modal-btn").addEventListener("click", () => {
-  hide(deleteWarnModal);
-});
-
-// Add event listeners to delete buttons
-tr.querySelector(".delete-btn").addEventListener("click", () => {
-  // Find the student ID
-  const studentId = student.id;
-
-  // Find the full name of the student
-  const fullName = `${student.name} ${student.surname}`;
-
-  // Update the modal window text
-  deleteWarnText.innerHTML = `Delete student:<br><b>${fullName}</b>?`;
-
-  // Show the modal window
-  show(deleteWarnModal);
-
-  // Remove old event handlers
-  confirmDeleteWarnButton.replaceWith(confirmDeleteWarnButton.cloneNode(true));
-
-  // Add a new handler for the confirm button
-  document.getElementById("delete-modal-btn").addEventListener("click", () => {
-    students = students.filter((s) => s.id !== studentId);
-    updateLocalStorage();
-    updateTable();
-    hide(deleteWarnModal);
-  });
-});
-
-// Handler for the cancel delete button
 document.getElementById("cancel-modal-btn").addEventListener("click", () => {
   hide(deleteWarnModal);
 });
@@ -582,44 +550,3 @@ function show(modalWindow) {
 function hide(modalWindow) {
   modalWindow?.classList.add("hidden");
 }
-
-// Function to show delete confirmation for a specific student
-function confirmDeleteStudent(studentRow) {
-  const studentName = studentRow.querySelector("td:nth-child(3)").textContent;
-  deleteWarnText.innerHTML = `Delete student named<br>${studentName}?`;
-
-  show(deleteWarnModal);
-
-  // Remove previous event listeners to prevent multiple bindings
-  const newConfirmDeleteWarnButton = confirmDeleteWarnButton.cloneNode(true);
-  confirmDeleteWarnButton.replaceWith(newConfirmDeleteWarnButton);
-  newConfirmDeleteWarnButton.addEventListener("click", () => {
-    studentRow.remove();
-    hide(deleteWarnModal);
-  });
-
-  // confirmDeleteWarnButton.addEventListener("click", () => {
-  //   studentRow.remove();
-  //   hide(deleteWarnModal);
-  // });
-}
-
-// Adding event listeners to delete buttons
-studentsTable.addEventListener("click", (event) => {
-  if (event.target.closest(".delete-btn")) {
-    const studentRow = event.target.closest("tr");
-    const studentId = parseInt(
-      studentRow.querySelector('input[type="checkbox"]').dataset.id
-    );
-
-    students = students.filter((s) => s.id !== studentId);
-    updateLocalStorage();
-    updateTable();
-    hide(deleteWarnModal);
-  }
-});
-
-// // Cancel delete modal
-// cancelDeleteWarnButton.addEventListener("click", () => {
-//   hide(deleteWarnModal);
-// });

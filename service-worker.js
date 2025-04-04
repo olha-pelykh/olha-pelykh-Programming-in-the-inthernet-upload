@@ -1,58 +1,66 @@
-const CACHE_NAME = "v1";
-const urlsToCache = [
+const CACHE_NAME = "v2";
+const ASSETS = [
+  // Your app's assets
   "/",
-  "/student.html",
+  "/index.html",
   "/dashboard.html",
-  "/tasks.html",
   "/messages.html",
-  "/style.css",
-  "/script.js",
+  "/tasks.html",
+  "/css/style.css",
+  "/js/script.js",
+  "/service-worker.js",
+  "/icons/apple-touch-icon.png",
+  "/icons/favicon-96x96.png",
+  "/icons/favicon.ico",
+  "/icons/favicon.svg",
+  "/icons/site.webmanifest",
   "/manifest.json",
-  "/art-student-owl.jpg",
 ];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return Promise.all(
-        urlsToCache.map((url) => {
-          console.log(`Fetching ${url}`);
-          return fetch(url)
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error(`Failed to fetch ${url}: ${response.status}`);
-              }
-              return cache.put(url, response);
-            })
-            .catch((err) => {
-              console.error(`Не вдалося кешувати ${url}:`, err);
-              return Promise.resolve();
-            });
-        })
-      );
+      // Only cache our own assets during install
+      return cache
+        .addAll(ASSETS)
+        .then(() => console.log("App assets cached successfully"))
+        .catch((err) => console.error("Failed to cache app assets:", err));
     })
   );
 });
 
 self.addEventListener("fetch", (event) => {
+  // Skip non-HTTP requests (like chrome-extension:)
+  if (!event.request.url.startsWith("http")) {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
+      // Return cached response if found
       if (cachedResponse) {
         return cachedResponse;
       }
 
+      // Otherwise fetch from network
       return fetch(event.request)
         .then((networkResponse) => {
-          if (networkResponse.ok) {
+          // Only cache successful responses from our origin
+          if (
+            networkResponse.ok &&
+            networkResponse.url.startsWith(self.location.origin)
+          ) {
+            const responseToCache = networkResponse.clone();
             caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, networkResponse.clone());
+              cache.put(event.request, responseToCache);
             });
           }
           return networkResponse;
         })
         .catch(() => {
-          if (event.request.mode === "navigate") {
-            return caches.match("/offline.html");
+          // Fallback for failed requests
+          if (event.request.headers.get("accept").includes("text/html")) {
+            return caches.match("/index.html");
           }
           return new Response("Offline", { status: 503 });
         });
@@ -62,18 +70,12 @@ self.addEventListener("fetch", (event) => {
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches
-      .keys()
-      .then((keys) => {
-        return Promise.all(
-          keys
-            .filter((key) => key !== CACHE_NAME)
-            .map((key) => caches.delete(key))
-        );
-      })
-      .then(() => {
-        console.log("Новий Service Worker активовано.");
-        return self.clients.claim();
-      })
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames
+          .filter((name) => name !== CACHE_NAME)
+          .map((name) => caches.delete(name))
+      );
+    })
   );
 });
