@@ -1,6 +1,5 @@
-const CACHE_NAME = "v2";
+const CACHE_NAME = "v3";
 const ASSETS = [
-  // Your app's assets
   "/",
   "/index.html",
   "/dashboard.html",
@@ -8,54 +7,59 @@ const ASSETS = [
   "/tasks.html",
   "/css/style.css",
   "/js/script.js",
-  "/service-worker.js",
   "/icons/apple-touch-icon.png",
-  "/icons/favicon-96x96.png",
-  "/icons/favicon.ico",
-  "/icons/favicon.svg",
-  "/icons/site.webmanifest",
   "/manifest.json",
+  // Add other essential assets
 ];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      // Only cache our own assets during install
       return cache
         .addAll(ASSETS)
-        .then(() => console.log("App assets cached successfully"))
-        .catch((err) => console.error("Failed to cache app assets:", err));
+        .then(() => console.log("Assets cached"))
+        .catch((err) => {
+          console.error("Failed to cache some assets:", err);
+          // Continue even if some assets fail
+          return Promise.resolve();
+        });
     })
   );
 });
 
 self.addEventListener("fetch", (event) => {
-  // Skip non-HTTP requests (like chrome-extension:)
-  if (!event.request.url.startsWith("http")) {
+  // Skip non-HTTP requests and browser extensions
+  if (
+    !event.request.url.startsWith("http") ||
+    event.request.url.includes("chrome-extension")
+  ) {
     return;
   }
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      // Return cached response if found
+      // Return cached response if available
       if (cachedResponse) {
         return cachedResponse;
       }
 
       // Otherwise fetch from network
       return fetch(event.request)
-        .then((networkResponse) => {
-          // Only cache successful responses from our origin
+        .then((response) => {
+          // Only cache GET requests from our origin
           if (
-            networkResponse.ok &&
-            networkResponse.url.startsWith(self.location.origin)
+            event.request.method === "GET" &&
+            response.status === 200 &&
+            response.url.startsWith(self.location.origin)
           ) {
-            const responseToCache = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
+            // Create a new clone for caching
+            const responseClone = response.clone();
+            caches
+              .open(CACHE_NAME)
+              .then((cache) => cache.put(event.request, responseClone))
+              .catch((err) => console.error("Cache put error:", err));
           }
-          return networkResponse;
+          return response;
         })
         .catch(() => {
           // Fallback for failed requests
